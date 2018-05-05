@@ -245,6 +245,9 @@ def call(body) {
 def deployProject (String chartFolder, String registry, String image, String imageTag, String namespace, String manifestFolder) {
   if (chartFolder != null && fileExists(chartFolder)) {
     container ('helm') {
+      sh "ls -al /"
+      sh "bx help"
+      sh "bx plugin install /icp-linux-amd64 -f"
       sh "bx pr login -a https://mycluster.icp:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
       sh "bx pr cluster-config mycluster"
       sh "/helm init --client-only --skip-refresh"
