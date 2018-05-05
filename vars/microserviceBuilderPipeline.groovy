@@ -197,6 +197,8 @@ def call(body) {
           }
           
           container ('helm') {
+            sh "bx pr login -a https://mycluster.icp:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
+            sh "bx pr cluster-config mycluster"
             sh "/helm init --client-only --skip-refresh"
             def deployCommand = "/helm install ${realChartFolder} --tls --wait --set test=true --values pipeline.yaml --namespace ${testNamespace} --name ${tempHelmRelease}"
             if (fileExists("chart/overrides.yaml")) {
@@ -243,6 +245,8 @@ def call(body) {
 def deployProject (String chartFolder, String registry, String image, String imageTag, String namespace, String manifestFolder) {
   if (chartFolder != null && fileExists(chartFolder)) {
     container ('helm') {
+      sh "bx pr login -a https://mycluster.icp:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
+      sh "bx pr cluster-config mycluster"
       sh "/helm init --client-only --skip-refresh"
       def deployCommand = "/helm upgrade --tls --install --wait --values pipeline.yaml"
       if (fileExists("chart/overrides.yaml")) {
