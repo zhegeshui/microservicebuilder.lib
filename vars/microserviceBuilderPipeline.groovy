@@ -250,7 +250,6 @@ def call(body) {
 }
 
 def deployProject (String chartFolder, String registry, String image, String imageTag, String namespace, String manifestFolder) {
-  clearTemplateNames()
   if (chartFolder != null && fileExists(chartFolder)) {
     container ('helm') {
       sh "bx plugin install /icp-linux-amd64 -f"
