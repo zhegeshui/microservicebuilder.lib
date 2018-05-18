@@ -38,10 +38,6 @@ import java.util.UUID
 import groovy.json.JsonOutput;
 import groovy.json.JsonSlurperClassic;
 
-// temp fix test
-def uuid = randomUUID() as String
-def label = uuid.take(8)
-
 
 def call(body) {
   def config = [:]
@@ -52,6 +48,10 @@ def call(body) {
   body()
 
   print "microserviceBuilderPipeline : config = ${config}"
+  
+  // temp fix for stuck slaves
+  def uuid = randomUUID() as String
+  def label = uuid.take(8)
 
   def image = config.image
   def maven = (config.mavenImage == null) ? 'maven:3.5.2-jdk-8' : config.mavenImage
