@@ -38,6 +38,11 @@ import java.util.UUID
 import groovy.json.JsonOutput;
 import groovy.json.JsonSlurperClassic;
 
+// temp fix test
+def uuid = randomUUID() as String
+def label = uuid.take(8)
+
+
 def call(body) {
   def config = [:]
   // Parameter expansion works after the call to body() below.
@@ -92,7 +97,7 @@ def call(body) {
   print "microserviceBuilderPipeline: volumes = ${volumes}"
 
   podTemplate(
-    label: 'msbPod',
+    label: "msbPod-${label}",
     inheritFrom: 'default',
     containers: [
       containerTemplate(name: 'maven', image: maven, ttyEnabled: true, command: 'cat'),
@@ -105,7 +110,7 @@ def call(body) {
     ],
     volumes: volumes
   ) {
-    node('msbPod') {
+    node("msbPod-${label}") {
       def gitCommit
 
       stage ('Extract') {
