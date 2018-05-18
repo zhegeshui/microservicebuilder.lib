@@ -35,7 +35,7 @@
 import com.cloudbees.groovy.cps.NonCPS
 import java.io.File
 import java.util.UUID
-//import static java.util.UUID.randomUUID
+import static java.util.UUID.randomUUID
 import groovy.json.JsonOutput;
 import groovy.json.JsonSlurperClassic;
 
