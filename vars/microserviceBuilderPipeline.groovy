@@ -198,7 +198,7 @@ def call(body) {
           
           container ('helm') {
             sh "bx plugin install /icp-linux-amd64 -f"
-            sh "bx pr login -a https://9.110.71.87:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
+            sh "bx pr login -a https://9.110.71.77:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
             sh "bx pr cluster-config mycluster"
             sh "/helm init --client-only --skip-refresh"
             def deployCommand = "/helm install ${realChartFolder} --tls --wait --set test=true --values pipeline.yaml --namespace ${testNamespace} --name ${tempHelmRelease}"
