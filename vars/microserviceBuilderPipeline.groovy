@@ -249,7 +249,18 @@ def call(body) {
   }
 }
 
+//fix try #2 
+@NonCPS
+def clearTemplateNames() {
+	def r = script.currentBuild.rawBuild
+	def action = r.getAction(PodTemplateAction.class);
+	if(action) {
+		action.names.clear()
+	}
+}
+
 def deployProject (String chartFolder, String registry, String image, String imageTag, String namespace, String manifestFolder) {
+  clearTemplateNames()
   if (chartFolder != null && fileExists(chartFolder)) {
     container ('helm') {
       sh "bx plugin install /icp-linux-amd64 -f"
