@@ -35,7 +35,7 @@
 import com.cloudbees.groovy.cps.NonCPS
 import java.io.File
 import java.util.UUID
-import static java.util.UUID.randomUUID
+//import static java.util.UUID.randomUUID
 import groovy.json.JsonOutput;
 import groovy.json.JsonSlurperClassic;
 
@@ -249,22 +249,12 @@ def call(body) {
   }
 }
 
-//fix try #2 
-@NonCPS
-def clearTemplateNames() {
-	def r = script.currentBuild.rawBuild
-	def action = r.getAction(PodTemplateAction.class);
-	if(action) {
-		action.names.clear()
-	}
-}
-
 def deployProject (String chartFolder, String registry, String image, String imageTag, String namespace, String manifestFolder) {
   clearTemplateNames()
   if (chartFolder != null && fileExists(chartFolder)) {
     container ('helm') {
       sh "bx plugin install /icp-linux-amd64 -f"
-      sh "bx pr login -a https://9.110.71.87:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
+      sh "bx pr login -a https://9.110.71.77:8443 --skip-ssl-validation   -u admin -p admin  -c id-mycluster-account"
       sh "bx pr cluster-config mycluster"
       sh "/helm init --client-only --skip-refresh"
       def deployCommand = "/helm upgrade --tls --install --wait --values pipeline.yaml"
